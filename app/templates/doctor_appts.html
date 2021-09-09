@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>Please use filter to see appointments by Doctor</p>
+
+<form action="" method="post">
+	{{ form.hidden_tag() }}	
+	<div class="form-group">
+	  {{ form.doctor.label }}
+	  {{ form.doctor(class="form-control") }}
+	</div>
+	<p>{{ form.submit() }}</p>
+  </form>
+
+{% if appointments %}
+	<table>
+	<tr>
+		<th>Appointment</th>
+		<th>Patient</th>
+	</tr>
+
+{% for appointment in appointments %}
+	<tr>
+		<th>{{ appointment.date_time }}</th>
+		<th>{{ appointment.patient_name }}</th>
+	</tr>
+{% endfor %}
+	</table> 
+
+{% else %}
+	No appointments scheduled.
+{% endif %}
+
+{% endblock %}

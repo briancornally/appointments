@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Cancel Appointment</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {% from "_formhelpers.html" import render_field %}
+        <dl>
+            {% if form.id %}
+				{{ render_field(form.id) }}
+            {% endif %}
+        </dl>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

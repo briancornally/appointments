@@ -1,0 +1,34 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_anonymous %}
+<h1>Welcome to the Hospital Appointment System </h1>
+<p>Please login for doctor appointment scheduling.</p>
+
+{% else %}
+<h1>Welcome Patient {{ current_user.patient_name }} :) </h1>
+<p>Please use menus above for doctor appointment scheduling.</p>
+
+
+{% if appointments %}
+<table>
+	<tr>
+	  <th>Appointment</th>
+	  <th>Doctor</th>
+	</tr>
+
+{% for appointment in appointments %}
+<tr>
+	<th>{{ appointment.date_time }}</th>
+	<th>{{ appointment.doctor_name }}</th>
+</tr>
+{% endfor %}
+</table> 
+{% else %}
+No appointments scheduled.
+{% endif %}
+
+
+{% endif %}
+{% endblock %}

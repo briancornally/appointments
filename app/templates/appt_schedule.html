@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Appointment</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        {% from "_formhelpers.html" import render_field %}
+		<div class="form-group">
+		{{ render_field(form.doctor) }}
+		</div>
+		
+		<div class="form-group">
+		{{ form.date.label}}<br>
+		{{ form.date(class="dtpick") }}<br>
+		</div>
+
+		<div class="form-group">
+		{{ render_field(form.hour) }}
+		</div>
+
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
