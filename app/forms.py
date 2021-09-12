@@ -29,6 +29,7 @@ class AppointmentScheduleForm(FlaskForm):
     doctor=SelectField('Doctor',coerce=int,choices=DoctorChoiceIterable())
     date=DateField('Date', format="%m/%d/%Y")
     hour=SelectField('Time',coerce=int,choices=[(i,i) for i in range(8,16)])
+    priority=StringField('priority', validators=[DataRequired()])
     submit=SubmitField('Schedule') 
 
 class MeetingChoiceIterable(object):
