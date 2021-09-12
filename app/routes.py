@@ -6,7 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
 from app import db
 from datetime import *
-import sqlite3
+import sqlite3 
 
 @app.route('/')
 @app.route('/index')
@@ -21,9 +21,6 @@ def index():
                 "date_time": appt.date_time
             }
             appointments.append(item)
-    else:
-        # form = FilterForm(request.args, meta={"csrf": False})
-        form = FilterForm(request.args)
     return render_template('index.html', appointments=appointments)
 
 def get_appointments(doctor_id=None):
@@ -105,13 +102,21 @@ def appt_schedule():
     if form.validate_on_submit():
         patient=current_user
         doctor_id=form.doctor.data
-        date_time=datetime.combine(form.date.data,time(hour=form.hour.data))
-        appointment=Appointment(patient_id=patient.id,doctor_id=doctor_id,date_time=date_time)
-        db.session.add(appointment)
-        db.session.commit()
         doctor=Doctor.query.filter_by(id=doctor_id).first()
-        flash(f"Appointment scheduled on {date_time} with {doctor}")
-        return redirect(url_for('index'))
+        date_time=datetime.combine(form.date.data,time(hour=form.hour.data))
+        priority=form.priority.data
+        if priority not in ['H','L']:
+            flash(f"Priority must be 'H' or 'L'. Please retry")
+            return redirect(url_for('appt_schedule'))
+        if Appointment.query.filter_by(date_time=date_time).filter_by(doctor_id=doctor_id).first():
+            flash(f"Existing appointment on {date_time} with {doctor}. Please retry")
+            return redirect(url_for('appt_schedule'))
+        else:
+            appointment=Appointment(patient_id=patient.id,doctor_id=doctor_id,date_time=date_time)
+            db.session.add(appointment)
+            db.session.commit()
+            flash(f"Appointment scheduled on {date_time} with {doctor}")
+            return redirect(url_for('index'))
     else:
         print(form.errors)
     return render_template('appt_schedule.html',title='Appointment',form=form)
