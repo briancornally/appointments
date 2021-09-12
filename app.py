@@ -1,6 +1,9 @@
-#from flask import render_template
+#!/usr/bin/env python3
+from flask import render_template
 from app import app, db
-from app.models import User,Room
+from app.models import *
+
+dir(app)
 
 if __name__ == '__main__':
     app.debug=True
