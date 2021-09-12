@@ -18,11 +18,10 @@ class Patient(UserMixin,db.Model):
         self.password_hash = generate_password_hash(password)
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
     def __repr__(self):
         return f'Patient {self.patient_name}'
 
-class Doctor(db.Model): 
+class Doctor(db.Model):
     id=db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     doctor_name=db.Column(db.String(64), nullable=False)    
 
@@ -33,7 +32,8 @@ class Appointment(db.Model):
     id=db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     patient_id=db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False)
     doctor_id=db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
-    date_time=db.Column(db.DateTime, nullable=True)
+    date_time=db.Column(db.DateTime, nullable=False)
+    priority=db.Column(db.String(1), nullable=True)
 
     def __repr__(self):
         return f'Appointment patient:{self.patient_id} doctor:{self.doctor_id} at {self.date_time}'
